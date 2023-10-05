@@ -96,6 +96,13 @@ public class Function {
         return (leftB + rightB) / 2;
     }
 
+    /**
+     * This method id defined in order to find roots of function
+     * @param leftB - left boundary of the segment
+     * @param rightB - right boundary of the segment
+     * @param epsilon - the step
+     */
+
     public static void classicTon(double leftB, double rightB, double epsilon) {
         double curr = leftB;
         while(curr < rightB) {
@@ -147,8 +154,8 @@ public class Function {
         f.scan(-5,5, 0.1);
         classicTon(2.5,3.5,0.01); // необходимо правильно задавать диапазон, иначе не сработает
         newTon(-5,5,0.01);
-        System.out.println(f.Alliter);
-        System.out.println("Do you want to draw the graphic?");
+        //System.out.println(f.Alliter);
+        //System.out.println("Do you want to draw the graphic?");
 //        Scanner scanner = new Scanner(System.in);
 //        if (scanner.next().equals("Yes"))
 //            Graphic.drawGraphic();
