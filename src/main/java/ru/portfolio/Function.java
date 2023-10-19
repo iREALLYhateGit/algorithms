@@ -1,7 +1,5 @@
 package ru.portfolio;
 
-import java.util.Scanner;
-
 enum Direction{
     MAX, MIN
 }
@@ -12,7 +10,7 @@ public class Function {
     private final double CONST_FI = (1 + Math.sqrt(5)) / 2;
     private double x;
     int iter;
-    int Alliter;
+    int allIter;
     public static double getY(double x){
         return x*Math.pow(x - 1,2)*Math.pow(x-3,3);
     }
@@ -43,7 +41,7 @@ public class Function {
                 System.out.println("Min is inside: [" + (curr - step)
                         + " :: " + (curr + step) + "]");
                 res = clarify(curr - step, curr + step,step/100,Direction.MIN);
-                System.out.println("precise value of Min ( x axis): " + res);
+                System.out.println("precise value of Min (x axis): " + res);
                 System.out.println("Amount of iterations = " + iter + "\n");
                 iter = 0;
             }
@@ -75,7 +73,7 @@ public class Function {
         double x1, x2;
         while (Math.abs(rightB - leftB) >= step){
             iter++;
-            Alliter++;
+            allIter++;
             x1 = rightB - (rightB - leftB) / CONST_FI;
             x2 = leftB + (rightB - leftB) / CONST_FI;
             switch (dir){
