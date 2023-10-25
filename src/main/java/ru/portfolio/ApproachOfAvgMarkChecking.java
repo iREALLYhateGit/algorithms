@@ -1,6 +1,6 @@
 package ru.portfolio;
 
-public class Judge {
+public class ApproachOfAvgMarkChecking {
     public static void main(String[] args) {
         int [] [] pop = {
                 {2,1,4,3,5,6},

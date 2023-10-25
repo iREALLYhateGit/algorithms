@@ -5,10 +5,11 @@ import java.util.HashMap;
 
 public class BFS {
     public static void main(String[] args) {
+        System.out.println("asd");
+//        findShortest(new int[][]{{1,2}, {1,2}}, 2,3);
 
     }
-
-    private int findShortest(int arr[][], int start, int end){
+    private static int findShortest(int arr[][], int start, int end){
         var dict = new HashMap<Integer, ArrayList<Integer>>();
         var lizt = new ArrayList<Integer>();
         for(int i = 0; i < arr.length; i++){

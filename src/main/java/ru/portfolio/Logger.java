@@ -1,14 +1,10 @@
 package ru.portfolio;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class Second {
-    static Logger logger = Logger.getLogger(Second.class.getName());
+public class Logger {
+    static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.class.getName());
     public static void main(String[] args) throws IOException {
         logger.info("Start");
         System.out.println("starting///////");
