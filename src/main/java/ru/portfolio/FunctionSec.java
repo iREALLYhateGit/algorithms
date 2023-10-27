@@ -1,9 +1,6 @@
 package ru.portfolio;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.*;
 
 public class FunctionSec {
     static int iter;
@@ -51,21 +48,61 @@ public class FunctionSec {
                 return y2;
     }
     static double getMinByNelderMead(ArrayList<Point> list){   //worst = 0, good = 1, best = 2
-        final double epsilon = 0.001d;
-        list.sort(new PointComparator());
+        double epsilon = 0.001d;
+        PointComparator pComp = new PointComparator();
+        list.sort(pComp);
 
-        //hashmap consists of 3 points: best, worst and good
+        //hashmap consists of 3 points: best, worst and good. The best has the lowest Z value,
+        // the worst has max Z value, and good has max Z value after the worst.
         HashMap<String,Point> map = new HashMap<>();
-        map.put("worst",list.get(0));
+        map.put("worst",list.get(2));
         map.put("good",list.get(1));
-        map.put("best",list.get(2));
+        map.put("best",list.get(0));
+
+
+//        System.out.println(map.get("worst"));
+//        System.out.println(getZ(map.get("worst")));
+//        System.out.println(map.get("best"));
+//        System.out.println(getZ(map.get("best")));
 
         Point tempr;
         Point middle;
+        Point stretchedOrcontracted;
+
         while(getZ(list.get(0)) > epsilon){
             middle = Point.getMiddlePoint(map.get("best"), map.get("good"));
-            tempr = Point.getMirroredPoint(middle,map.get("worst"));
+            //System.out.println(middle + " : " + getZ(middle));
 
+            tempr = Point.getMirroredPoint(middle,map.get("worst"));
+            //System.out.println("tempr = " + tempr);
+
+            if(getZ(tempr) <= getZ(map.get("best"))){
+                stretchedOrcontracted = Point.getChangedP(tempr,middle,Way.STRETCH);
+                if(getZ(stretchedOrcontracted) <= getZ(map.get("best")))
+                    map.replace("worst",stretchedOrcontracted);
+                else
+                    map.replace("worst",tempr);
+            } else if (getZ(tempr) <= getZ(map.get("good")))
+                map.replace("worst",tempr);
+
+            //compare worst point with mirrored one
+            else{
+                if(getZ(tempr) <= getZ(map.get("worst")))
+                    stretchedOrcontracted = Point.getMiddlePoint(tempr,middle);
+                else
+                    stretchedOrcontracted = Point.getMiddlePoint(middle,map.get("worst"));
+                //compare the point obtained by contraction with the worst one
+                if(getZ(stretchedOrcontracted) <= getZ(map.get("worst")))
+                    map.replace("worst",stretchedOrcontracted);
+                else{
+                    Point.shrinkage(map.get("best"),map.get("worst"), map.get("good"));
+                }
+            }
+
+            list.clear();
+            list.addAll(map.values());
+            list.sort(pComp);
+            epsilon += 1000;
         }
         return 0;
     }
@@ -109,28 +146,30 @@ class Point{
                 (p1.getY() + p2.getY())/2);
     }
 
-    // not valid, rewrite some info
     public static Point getMirroredPoint(Point middlePoint, Point currentPoint){
         if(middlePoint.getX() < currentPoint.getX() && middlePoint.getY() < currentPoint.getY())
-                return new Point(currentPoint.getX()- middlePoint.getX(),
-                        currentPoint.getY() - middlePoint.getY());
+                return new Point(middlePoint.getX() - Math.abs(currentPoint.getX() - middlePoint.getX()),
+                        middlePoint.getY() - Math.abs(currentPoint.getY() - middlePoint.getY()));
         else if(middlePoint.getX() < currentPoint.getX() && middlePoint.getY() >= currentPoint.getY())
-            return new Point(middlePoint.getX()- currentPoint.getX(),
-                    currentPoint.getY() - middlePoint.getY());
+            return new Point(middlePoint.getX() - Math.abs(currentPoint.getX() - middlePoint.getX()),
+                    middlePoint.getY() + Math.abs(currentPoint.getY() - middlePoint.getY()));
         else if(middlePoint.getX() >= currentPoint.getX() && middlePoint.getY() < currentPoint.getY())
-            return new Point(middlePoint.getX()- currentPoint.getX(),
-                    currentPoint.getY() - middlePoint.getY());
+            return new Point(middlePoint.getX() + Math.abs(currentPoint.getX() - middlePoint.getX()),
+                    middlePoint.getY() - Math.abs(currentPoint.getY() - middlePoint.getY()));
         else
-            return new Point(middlePoint.getX()- currentPoint.getX(),
-                    currentPoint.getY() - middlePoint.getY());
+            return new Point(middlePoint.getX() + Math.abs(currentPoint.getX() - middlePoint.getX()),
+                    middlePoint.getY() + Math.abs(currentPoint.getY() - middlePoint.getY()));
         }
     public static Point getChangedP(Point mirroredP, Point middleP, Way way) {
         if(way == Way.STRETCH)
-            return Point.getMirroredPoint()
+            return Point.getMirroredPoint(mirroredP,middleP);
+        else
+            return Point.getMirroredPoint(middleP,mirroredP);
     }
-    public static Point gett(Point p1, Point p2){
-        return new Point((p1.getX() + p2.getX())/2,
-                (p1.getY() + p2.getY())/2);
+    public static void shrinkage(Point best, Point...p){
+        for (Point point: p) {
+            point = Point.getMiddlePoint(best,point);
+        }
     }
 
     @Override
