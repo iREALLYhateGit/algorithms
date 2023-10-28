@@ -47,8 +47,8 @@ public class FunctionSec {
             else
                 return y2;
     }
-    static double getMinByNelderMead(ArrayList<Point> list){   //worst = 0, good = 1, best = 2
-        double epsilon = 0.001d;
+    static void getMinByNelderMead(ArrayList<Point> list){   //worst = 0, good = 1, best = 2
+        double epsilon = 0.0001d;
         PointComparator pComp = new PointComparator();
         list.sort(pComp);
 
@@ -69,7 +69,9 @@ public class FunctionSec {
         Point middle;
         Point stretchedOrcontracted;
 
-        while(getZ(list.get(0)) > epsilon){
+        //System.out.println(Point.getArea(map.get("worst"),map.get("good"),map.get("best")));
+
+        while(Point.getArea(map.get("worst"),map.get("good"),map.get("best")) > epsilon){
             middle = Point.getMiddlePoint(map.get("best"), map.get("good"));
             //System.out.println(middle + " : " + getZ(middle));
 
@@ -102,9 +104,20 @@ public class FunctionSec {
             list.clear();
             list.addAll(map.values());
             list.sort(pComp);
-            epsilon += 1000;
+            map.replace("worst",list.get(2));
+            map.replace("good",list.get(1));
+            map.replace("best",list.get(0));
+//            System.out.println(map.get("worst"));
+//            System.out.println(map.get("good"));
+//            System.out.println(map.get("best"));
+//            System.out.println(" ");
+//            System.out.println("end of line");
+//            System.out.println(" ");
         }
-        return 0;
+        System.out.println("***Nelder-Mead's method***");
+        System.out.println("Local min in: " + map.get("best").getX() + "  " + map.get("best").getY());
+        System.out.println("Amount of iterations later");
+//        System.out.println(getZ(map.get("best")));
     }
     /*public static double partial_derivative_x(double x, double y){
         return 2*(Math.pow(x,2) + y - 11)*2*x + 2*(x + Math.pow(y,2) - 7);
@@ -116,7 +129,7 @@ public class FunctionSec {
         Point point1 = new Point(0,0);
         Point point2 = new Point(2,2);
         Point point3 = new Point(2,0);
-        System.out.println(getMinByNelderMead(new ArrayList<>(Arrays.asList(point1,point2,point3))));
+        getMinByNelderMead(new ArrayList<>(Arrays.asList(point1,point2,point3)));
     }
 }
 class Point{
@@ -125,22 +138,15 @@ class Point{
         this.y = y;
     }
 
-    private double x;
-    private double y;
+    private final double x;
+    private final double y;
 
     public double getX() {
         return x;
     }
-    public void setX(double x) {
-        this.x = x;
-    }
     public double getY() {
         return y;
     }
-    public void setY(double y) {
-        this.y = y;
-    }
-
     public static Point getMiddlePoint(Point p1, Point p2){
         return new Point((p1.getX() + p2.getX())/2,
                 (p1.getY() + p2.getY())/2);
@@ -170,6 +176,14 @@ class Point{
         for (Point point: p) {
             point = Point.getMiddlePoint(best,point);
         }
+    }
+
+    public static double getArea(Point p1, Point p2, Point p3){
+        double a = Math.pow(Math.pow(p1.getX() - p2.getX(),2) + Math.pow(p1.getY() - p2.getY(),2),0.5d);
+        double b = Math.pow(Math.pow(p2.getX() - p3.getX(),2) + Math.pow(p2.getY() - p3.getY(),2),0.5d);
+        double c = Math.pow(Math.pow(p1.getX() - p3.getX(),2) + Math.pow(p1.getY() - p3.getY(),2),0.5d);
+        double halfPerimeter = (a + b + c)/2;
+        return Math.pow(halfPerimeter*(halfPerimeter - a)*(halfPerimeter - b)*(halfPerimeter - c), 0.5d);
     }
 
     @Override
