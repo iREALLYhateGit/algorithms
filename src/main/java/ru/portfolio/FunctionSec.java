@@ -5,12 +5,12 @@ import java.util.*;
 public class FunctionSec {
     static int iter = 1;
     public static double getZ(double x, double y){
-//        return Math.pow(Math.pow(x,2) + y - 11,2) + Math.pow(x + Math.pow(y,2) - 7,2);
-        return Math.pow(x,3) + 0.2*Math.pow(y,3) - 3*Math.pow(x,2)*y + 12*y;
+       return Math.pow(Math.pow(x,2) + y - 11,2) + Math.pow(x + Math.pow(y,2) - 7,2);
+//        return Math.pow(x,3) + 0.2*Math.pow(y,3) - 3*Math.pow(x,2)*y + 12*y;
     }
     public static double getZ(Point point){
-//        return Math.pow(Math.pow(point.x(), 2) + point.y() - 11,2) + Math.pow(point.x() + Math.pow(point.y(), 2) - 7,2);
-        return Math.pow(point.x(), 3) + 0.2*Math.pow(point.y(), 3) - 3*Math.pow(point.x(), 2)*point.y() + 12*point.y();
+        return Math.pow(Math.pow(point.x(), 2) + point.y() - 11,2) + Math.pow(point.x() + Math.pow(point.y(), 2) - 7,2);
+//        return Math.pow(point.x(), 3) + 0.2*Math.pow(point.y(), 3) - 3*Math.pow(point.x(), 2)*point.y() + 12*point.y();
     }
     public static void coordinate_descent(double x, double y, double step, double eps){
         System.out.println("***Метод спуска с постоянным шагом***" + "\n" + "x = " + x +
@@ -156,12 +156,9 @@ public class FunctionSec {
                 "epsilon - когда стоит остановиться");
         //System.out.println("\n" + "Функция Химмельблау");
         //метод покоординатного спуска с шагом 0.01, пока точность не будет меньше 0.0001
-        coordinate_descent(-5,5,1, 0.001d);
+        coordinate_descent(50,50,1, 0.01d);
 
         //создаём точки для треугольника метода Нелдера-Мида
-//        Point point1 = new Point(0,0);
-//        Point point2 = new Point(2,2);
-//        Point point3 = new Point(2,0);
         Point point1 = new Point(-100,100);
         Point point2 = new Point(-20,20);
         Point point3 = new Point(-30,50);
@@ -169,7 +166,7 @@ public class FunctionSec {
                 "при которой стоит остановиться ");
         //метод Нелдера-Мида: цикл выполянется, пока площадь треугольника не станет меньше заданного epsilon.
         getMinByNelderMead(new ArrayList<>(Arrays.asList(point1,point2,point3)),0.01d);
-        getGradientMin(new Point(0,0),0.01d,0.001d);
+        getGradientMin(new Point(30,30),0.01d,0.01d);
     }
 }
 
