@@ -1,16 +1,29 @@
 package ru.portfolio;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Quicksort {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         List<Integer> lizt = new ArrayList<>();
         lizt.add(12);
         lizt.add(223);
         lizt.add(3);
         lizt.add(3);
         lizt.add(324);
+        Date date = new Date();
+        long a = (new Date()).getTime();
+        Arrays.parallelSort(lizt.toArray(), new Comparator<Object>() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return Integer.compare((Integer) o1, (Integer) o2);
+            }
+        });
+        long b = (new Date()).getTime();
+        Thread.sleep(1000);
+        System.out.println("now " + (new Date()).getTime());
+        System.out.println(a + "  start_time");
+        System.out.println(b + "  start_time");
+        System.out.println(b - a + "  secs");
 
         System.out.println(quickSort(lizt));
     }

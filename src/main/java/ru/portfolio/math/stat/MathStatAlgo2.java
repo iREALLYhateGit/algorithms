@@ -1,8 +1,8 @@
-package ru.portfolio;
+package ru.portfolio.math.stat;
 
 import java.util.*;
 
-public class FunctionSec {
+public class MathStatAlgo2 {
     static int iter = 1;
     public static double getZ(double x, double y){
        return Math.pow(Math.pow(x,2) + y - 11,2) + Math.pow(x + Math.pow(y,2) - 7,2);
@@ -230,6 +230,6 @@ enum Way{
 class PointComparator implements Comparator<Point> {
     @Override
     public int compare(Point point1, Point point2) {
-        return Double.compare(FunctionSec.getZ(point1.x(), point1.y()), FunctionSec.getZ(point2.x(), point2.y()));
+        return Double.compare(MathStatAlgo2.getZ(point1.x(), point1.y()), MathStatAlgo2.getZ(point2.x(), point2.y()));
     }
 }

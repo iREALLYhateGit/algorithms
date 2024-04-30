@@ -1,10 +1,9 @@
-package ru.portfolio;
+package ru.portfolio.math.stat;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,7 +32,7 @@ public class Graphic extends JPanel {
         g2d.setColor(Color.RED);
         for (int i = 0; i < w; i++) {
             double x = x_min + (x_max - x_min) / w * i;
-            double y = Function.getY(x);
+            double y = MathStatAlgo.getY(x);
             double x0 = w / 2.0 + x / (x_max - x_min) * w;
             double y0 = h / 2.0 - y / (y_max - y_min) * h;
             g2d.draw(new Line2D.Double(x0, y0, x0, y0));
